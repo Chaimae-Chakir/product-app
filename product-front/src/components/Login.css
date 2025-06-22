@@ -1,0 +1,9 @@
+.login-card {
+    width: 400px;
+    border: none;
+    box-shadow: none;
+}
+
+.login-card .p-card-content {
+    padding: 2rem;
+}
