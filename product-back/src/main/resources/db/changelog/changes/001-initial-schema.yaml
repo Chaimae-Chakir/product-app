@@ -1,0 +1,110 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: chakir
+      changes:
+        - createTable:
+            preConditions:
+              - onFail: MARK_RAN
+              - not:
+                  - tableExists:
+                      tableName: roles
+            tableName: roles
+            columns:
+              - column:
+                  name: id
+                  type: BIGSERIAL
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: VARCHAR(60)
+                  constraints:
+                    nullable: false
+                    unique: true
+        - createTable:
+            preConditions:
+              - onFail: MARK_RAN
+              - not:
+                  - tableExists:
+                      tableName: users
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  type: BIGSERIAL
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: VARCHAR(255)
+              - column:
+                  name: username
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: email
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: password
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+        - createTable:
+            preConditions:
+              - onFail: MARK_RAN
+              - not:
+                  - tableExists:
+                      tableName: users_roles
+            tableName: users_roles
+            columns:
+              - column:
+                  name: user_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    foreignKeyName: fk_users_roles_user
+                    references: users(id)
+              - column:
+                  name: role_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    foreignKeyName: fk_users_roles_role
+                    references: roles(id)
+        - createTable:
+            preConditions:
+              - onFail: MARK_RAN
+              - not:
+                  - tableExists:
+                      tableName: product
+            tableName: product
+            columns:
+              - column:
+                  name: id
+                  type: BIGSERIAL
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: price
+                  type: DOUBLE PRECISION
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: VARCHAR(255) 
