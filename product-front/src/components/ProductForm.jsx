@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { InputText } from 'primereact/inputtext';
 import { InputNumber } from 'primereact/inputnumber';
 import { Button } from 'primereact/button';
+import { Message } from 'primereact/message';
 import ProductService from '../services/ProductService';
 
 const ProductForm = ({ product, onSave, onCancel }) => {
     const [name, setName] = useState('');
     const [price, setPrice] = useState(0);
     const [id, setId] = useState(null);
+    const [priceError, setPriceError] = useState('');
 
     useEffect(() => {
         if (product) {
@@ -23,16 +25,16 @@ const ProductForm = ({ product, onSave, onCancel }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (price <= 0) {
-            alert('Price must be greater than 0');
+        if (!price || price <= 0) {
+            setPriceError('Price must be greater than 0');
             return;
+        } else {
+            setPriceError('');
         }
         const productData = { name, price };
-
         const saveMethod = id
             ? ProductService.updateProduct(id, productData)
             : ProductService.createProduct(productData);
-
         saveMethod
             .then(() => {
                 onSave();
@@ -50,7 +52,18 @@ const ProductForm = ({ product, onSave, onCancel }) => {
             </div>
             <div className="p-field mt-3">
                 <label htmlFor="price">Price</label>
-                <InputNumber id="price" value={price} onValueChange={(e) => setPrice(e.value)} mode="currency" currency="USD" locale="en-US" required min={0.01} />
+                <InputNumber
+                    id="price"
+                    value={price}
+                    onValueChange={(e) => setPrice(e.value)}
+                    mode="currency"
+                    currency="MAD"
+                    locale="fr-MA"
+                    required
+                    min={0.01}
+                    className={priceError ? 'p-invalid' : ''}
+                />
+                {priceError && <Message severity="error" text={priceError} />}
             </div>
             <div className="p-d-flex p-jc-end mt-4">
                 <Button label="Cancel" icon="pi pi-times" className="p-button-text" onClick={onCancel} type="button" />
