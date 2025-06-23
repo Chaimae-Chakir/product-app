@@ -15,9 +15,12 @@ spring:
   liquibase:
     change-log: classpath:db/changelog/db.changelog-master.yaml
 
-server:
-  port: 8080
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,liquibase
 
 app:
   jwt-secret: your-super-secret-key-that-is-long-enough
-  jwt-expiration-milliseconds: 604800000 
+  jwt-expiration-milliseconds: 604800000

@@ -35,6 +35,7 @@ public class Product {
     @CreationTimestamp
     private ZonedDateTime createdAt;
 
+    @UpdateTimestamp
     private ZonedDateTime updatedAt;
 
     @PreUpdate
