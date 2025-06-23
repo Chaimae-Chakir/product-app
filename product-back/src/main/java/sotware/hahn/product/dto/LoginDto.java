@@ -1,13 +1,6 @@
 package sotware.hahn.product.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class LoginDto {
-    private String usernameOrEmail;
-    private String password;
-} 
+public record LoginDto (
+     String username,
+     String password
+){}
