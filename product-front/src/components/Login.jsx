@@ -6,11 +6,11 @@ import { Button } from 'primereact/button';
 import { Message } from 'primereact/message';
 import { Card } from 'primereact/card';
 import './Login.css';
-import {useAuth} from "../context/AuthContext";
-import {useNavigate} from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-    const [usernameOrEmail, setUsernameOrEmail] = useState('');
+    const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const { login } = useAuth();
@@ -22,10 +22,14 @@ const Login = () => {
         setError('');
         setLoading(true);
         try {
-            await login(usernameOrEmail, password);
+            await login(username, password);
             navigate('/');
         } catch (err) {
-            setError('Login failed. Please check your credentials.');
+            const message =
+                err?.response?.data?.message ||
+                err?.message ||
+                'Login failed. Please check your credentials.';
+            setError(message);
         } finally {
             setLoading(false);
         }
@@ -34,7 +38,7 @@ const Login = () => {
     return (
         <Card className="login-card">
             <div className="login-container">
-                <h2 className="login-title">Welcome Back</h2>
+                <h2 className="login-title">Sign In</h2>
 
                 {error && (
                     <Message
@@ -44,17 +48,17 @@ const Login = () => {
                     />
                 )}
 
-                <div className="login-form">
+                <form onSubmit={handleLogin} className="login-form">
                     <div className="p-float-label login-field">
                         <InputText
-                            id="usernameOrEmail"
-                            value={usernameOrEmail}
-                            onChange={(e) => setUsernameOrEmail(e.target.value)}
+                            id="username"
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
                             className="login-input w-full"
                             autoFocus
-                            onKeyPress={(e) => e.key === 'Enter' && handleLogin(e)}
+                            required
                         />
-                        <label htmlFor="usernameOrEmail">Username or Email</label>
+                        <label htmlFor="username">Username</label>
                     </div>
 
                     <div className="p-float-label login-field">
@@ -66,7 +70,7 @@ const Login = () => {
                             inputClassName="login-password-input"
                             feedback={false}
                             toggleMask
-                            onKeyPress={(e) => e.key === 'Enter' && handleLogin(e)}
+                            required
                         />
                         <label htmlFor="password">Password</label>
                     </div>
@@ -75,11 +79,11 @@ const Login = () => {
                         label={loading ? 'Signing In...' : 'Sign In'}
                         icon={loading ? 'pi pi-spinner pi-spin' : 'pi pi-sign-in'}
                         className="login-button"
-                        onClick={handleLogin}
+                        type="submit"
                         disabled={loading}
                         loading={loading}
                     />
-                </div>
+                </form>
             </div>
         </Card>
     );
