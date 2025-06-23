@@ -93,7 +93,17 @@ const ProductList = () => {
             <ConfirmDialog />
             <DataTable value={products} header={header} paginator rows={10} rowsPerPageOptions={[5, 10, 25]} responsiveLayout="scroll">
                 <Column field="name" header="Name" sortable></Column>
-                <Column field="price" header="Price" sortable body={(rowData) => `$${rowData.price.toFixed(2)}`}></Column>
+                <Column
+                    field="price"
+                    header="Price"
+                    sortable
+                    body={(rowData) =>
+                        rowData.price?.toLocaleString('fr-MA', {
+                            style: 'currency',
+                            currency: 'MAD'
+                        })
+                    }
+                />
                 {isAdmin && <Column body={actionBodyTemplate} exportable={false} className="actions-column"></Column>}
             </DataTable>
 
