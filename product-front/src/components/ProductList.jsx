@@ -91,7 +91,7 @@ const ProductList = () => {
         <div className="card">
             <Toast ref={toast} />
             <ConfirmDialog />
-            <DataTable value={products} header={header} paginator rows={10} rowsPerPageOptions={[5, 10, 25]} responsiveLayout="scroll">
+            <DataTable value={products} header={header} paginator rows={5} rowsPerPageOptions={[5, 10, 25]} responsiveLayout="scroll">
                 <Column field="name" header="Name" sortable></Column>
                 <Column
                     field="price"
@@ -103,6 +103,17 @@ const ProductList = () => {
                             currency: 'MAD'
                         })
                     }
+                />
+                <Column field="description" header="Description" />
+                <Column
+                    field="createdAt"
+                    header="Date"
+                    body={(rowData) => rowData.createdAt ? new Date(rowData.createdAt).toLocaleString('fr-MA') : ''}
+                />
+                <Column
+                    field="updatedAt"
+                    header="Updated"
+                    body={(rowData) => rowData.updatedAt ? new Date(rowData.updatedAt).toLocaleString('fr-MA') : ''}
                 />
                 {isAdmin && <Column body={actionBodyTemplate} exportable={false} className="actions-column"></Column>}
             </DataTable>

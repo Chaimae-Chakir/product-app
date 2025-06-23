@@ -140,4 +140,72 @@ databaseChangeLog:
                   value: "800.00"
               - column:
                   name: description
-                  value: "A modern smartphone with a great camera" 
+                  value: "A modern smartphone with a great camera"
+        - insert:
+            preConditions:
+              - onFail: MARK_RAN
+              - sqlCheck:
+                  expectedResult: "0"
+                  sql: "SELECT count(*) FROM product WHERE name = 'Headphones'"
+            tableName: product
+            columns:
+              - column:
+                  name: name
+                  value: "Headphones"
+              - column:
+                  name: price
+                  value: "250.00"
+              - column:
+                  name: description
+                  value: "Wireless noise-cancelling headphones"
+        - insert:
+            preConditions:
+              - onFail: MARK_RAN
+              - sqlCheck:
+                  expectedResult: "0"
+                  sql: "SELECT count(*) FROM product WHERE name = 'Tablet'"
+            tableName: product
+            columns:
+              - column:
+                  name: name
+                  value: "Tablet"
+              - column:
+                  name: price
+                  value: "450.00"
+              - column:
+                  name: description
+                  value: "10-inch tablet with HD display"
+        - insert:
+            preConditions:
+              - onFail: MARK_RAN
+              - sqlCheck:
+                  expectedResult: "0"
+                  sql: "SELECT count(*) FROM product WHERE name = 'Smartwatch'"
+            tableName: product
+            columns:
+              - column:
+                  name: name
+                  value: "Smartwatch"
+              - column:
+                  name: price
+                  value: "199.99"
+              - column:
+                  name: description
+                  value: "Fitness smartwatch with heart rate monitor"
+        - insert:
+            preConditions:
+              - onFail: MARK_RAN
+              - sqlCheck:
+                  expectedResult: "0"
+                  sql: "SELECT count(*) FROM product WHERE name = 'Bluetooth Speaker'"
+            tableName: product
+            columns:
+              - column:
+                  name: name
+                  value: "Bluetooth Speaker"
+              - column:
+                  name: price
+                  value: "99.99"
+              - column:
+                  name: description
+                  value: "Portable Bluetooth speaker with deep bass" 

@@ -36,56 +36,58 @@ const Login = () => {
     };
 
     return (
-        <Card className="login-card">
-            <div className="login-container">
-                <h2 className="login-title">Sign In</h2>
+        <div className="login-outer-container">
+            <Card className="login-card">
+                <div className="login-container">
+                    <h2 className="login-title">Sign In</h2>
 
-                {error && (
-                    <Message
-                        severity="error"
-                        text={error}
-                        className="login-error-message"
-                    />
-                )}
-
-                <form onSubmit={handleLogin} className="login-form">
-                    <div className="p-float-label login-field">
-                        <InputText
-                            id="username"
-                            value={username}
-                            onChange={(e) => setUsername(e.target.value)}
-                            className="login-input w-full"
-                            autoFocus
-                            required
+                    {error && (
+                        <Message
+                            severity="error"
+                            text={error}
+                            className="login-error-message"
                         />
-                        <label htmlFor="username">Username</label>
-                    </div>
+                    )}
 
-                    <div className="p-float-label login-field">
-                        <Password
-                            id="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            className="login-password w-full"
-                            inputClassName="login-password-input"
-                            feedback={false}
-                            toggleMask
-                            required
+                    <form onSubmit={handleLogin} className="login-form">
+                        <div className="p-float-label login-field">
+                            <InputText
+                                id="username"
+                                value={username}
+                                onChange={(e) => setUsername(e.target.value)}
+                                className="login-input w-full"
+                                autoFocus
+                                required
+                            />
+                            <label htmlFor="username">Username</label>
+                        </div>
+
+                        <div className="p-float-label login-field">
+                            <Password
+                                id="password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                className="login-password w-full"
+                                inputClassName="login-password-input"
+                                feedback={false}
+                                toggleMask
+                                required
+                            />
+                            <label htmlFor="password">Password</label>
+                        </div>
+
+                        <Button
+                            label={loading ? 'Signing In...' : 'Sign In'}
+                            icon={loading ? 'pi pi-spinner pi-spin' : 'pi pi-sign-in'}
+                            className="login-button"
+                            type="submit"
+                            disabled={loading}
+                            loading={loading}
                         />
-                        <label htmlFor="password">Password</label>
-                    </div>
-
-                    <Button
-                        label={loading ? 'Signing In...' : 'Sign In'}
-                        icon={loading ? 'pi pi-spinner pi-spin' : 'pi pi-sign-in'}
-                        className="login-button"
-                        type="submit"
-                        disabled={loading}
-                        loading={loading}
-                    />
-                </form>
-            </div>
-        </Card>
+                    </form>
+                </div>
+            </Card>
+        </div>
     );
 };
 

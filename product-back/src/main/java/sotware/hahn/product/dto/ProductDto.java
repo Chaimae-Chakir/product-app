@@ -11,6 +11,8 @@ public record ProductDto(
         @NotNull(message = "Price is mandatory")
         @Positive(message = "Price must be strictly positive")
         Double price,
-        String description
+        String description,
+        java.time.ZonedDateTime createdAt,
+        java.time.ZonedDateTime updatedAt
 ) {
 } 

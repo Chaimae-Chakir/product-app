@@ -10,16 +10,19 @@ const ProductForm = ({ product, onSave, onCancel }) => {
     const [price, setPrice] = useState(0);
     const [id, setId] = useState(null);
     const [priceError, setPriceError] = useState('');
+    const [description, setDescription] = useState('');
 
     useEffect(() => {
         if (product) {
             setName(product.name);
             setPrice(product.price);
             setId(product.id);
+            setDescription(product.description || '');
         } else {
             setName('');
             setPrice(0);
             setId(null);
+            setDescription('');
         }
     }, [product]);
 
@@ -31,7 +34,7 @@ const ProductForm = ({ product, onSave, onCancel }) => {
         } else {
             setPriceError('');
         }
-        const productData = { name, price };
+        const productData = { name, price, description };
         const saveMethod = id
             ? ProductService.updateProduct(id, productData)
             : ProductService.createProduct(productData);
@@ -64,6 +67,10 @@ const ProductForm = ({ product, onSave, onCancel }) => {
                     className={priceError ? 'p-invalid' : ''}
                 />
                 {priceError && <Message severity="error" text={priceError} />}
+            </div>
+            <div className="p-field mt-3">
+                <label htmlFor="description">Description</label>
+                <InputText id="description" value={description} onChange={(e) => setDescription(e.target.value)} required />
             </div>
             <div className="p-d-flex p-jc-end mt-4">
                 <Button label="Cancel" icon="pi pi-times" className="p-button-text" onClick={onCancel} type="button" />

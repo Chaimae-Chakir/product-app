@@ -12,6 +12,7 @@ import sotware.hahn.product.dto.ProductDto;
 import sotware.hahn.product.mapper.ProductMapper;
 
 import java.util.Optional;
+import java.time.ZonedDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -40,7 +41,7 @@ class ProductServiceImplTest {
         product.setPrice(100.0);
         product.setDescription("A test product");
 
-        ProductDto productDto = new ProductDto(1L, "Test Product", 100.0, "A test product");
+        ProductDto productDto = new ProductDto(1L, "Test Product", 100.0, "A test product", ZonedDateTime.now(), ZonedDateTime.now());
 
         when(productRepository.findById(1L)).thenReturn(Optional.of(product));
         when(productMapper.toDto(product)).thenReturn(productDto);

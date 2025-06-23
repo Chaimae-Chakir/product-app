@@ -1,51 +1,35 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Menubar } from 'primereact/menubar';
 import { useAuth } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 import './Header.css';
 
 const Header = () => {
     const { isAuthenticated, user, logout } = useAuth();
-    const location = useLocation();
-    const isLoginPage = location.pathname === '/login';
+    const navigate = useNavigate();
+
+    const items = [];
+
+    const logo = process.env.PUBLIC_URL + '/logo.png';
+
+    const start = (
+        <img alt="logo" src={logo} height="40" className="header-logo mr-2" onClick={() => navigate('/')} />
+    );
+
+    let end = null;
+    if (isAuthenticated) {
+        end = (
+            <div className="flex align-items-center gap-2">
+                <span className="header-greeting">Welcome, {user.username}</span>
+                <span className="header-menu-link" onClick={logout}>
+                    <i className="pi pi-sign-out header-menu-icon"></i> Logout
+                </span>
+            </div>
+        );
+    }
 
     return (
-        <nav className="navbar navbar-expand">
-            <Link to="/" className="navbar-brand">
-                <img src={process.env.PUBLIC_URL + '/logo.png'} alt="Logo" className="header-logo" />
-            </Link>
-            <div className="navbar-nav mr-auto">
-                {isAuthenticated && (
-                    <li className="nav-item">
-                        <Link to="/" className="nav-link">
-                            Products
-                        </Link>
-                    </li>
-                )}
-            </div>
-
-            <div className="navbar-nav ml-auto">
-                {isAuthenticated ? (
-                    <>
-                        <li className="nav-item">
-                            <span className="nav-link">Welcome, {user.username}</span>
-                        </li>
-                        <li className="nav-item">
-                            <a href="/login" className="nav-link" onClick={logout}>
-                                Logout
-                            </a>
-                        </li>
-                    </>
-                ) : (
-                    !isLoginPage && (
-                        <li className="nav-item">
-                            <Link to="/login" className="nav-link">
-                                Login
-                            </Link>
-                        </li>
-                    )
-                )}
-            </div>
-        </nav>
+        <Menubar model={items} start={start} end={end} />
     );
 };
 

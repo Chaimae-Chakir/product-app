@@ -1,4 +1,28 @@
 .header-logo {
-    height: 50px;
+    cursor: pointer;
+    height: 40px;
+    margin-right: 0.5rem;
     width: auto;
+}
+
+.header-greeting {
+    margin-right: 1rem;
+}
+
+.header-menu-link {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    font-size: 1rem;
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.header-menu-link:hover {
+    color: #1976d2;
+}
+
+.header-menu-icon {
+    margin-right: 4px;
 }
