@@ -1,9 +1,9 @@
 import api from './api';
 
-const login = (usernameOrEmail, password) => {
+const login = (username, password) => {
     return api
         .post('/auth/login', {
-            usernameOrEmail,
+            username,
             password
         })
         .then(response => {
