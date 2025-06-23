@@ -97,7 +97,7 @@ const ProductList = () => {
                 {isAdmin && <Column body={actionBodyTemplate} exportable={false} className="actions-column"></Column>}
             </DataTable>
 
-            <Dialog visible={displayDialog} header="Product Details" modal className="p-fluid product-dialog" onHide={hideDialog}>
+            <Dialog visible={displayDialog} header={selectedProduct ? "Edit Product" : "Add Product"} modal className="p-fluid product-dialog" onHide={hideDialog}>
                 <ProductForm product={selectedProduct} onSave={saveProduct} onCancel={hideDialog} />
             </Dialog>
         </div>

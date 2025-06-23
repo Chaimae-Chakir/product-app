@@ -9,7 +9,7 @@ const Header = () => {
     const isLoginPage = location.pathname === '/login';
 
     return (
-        <nav className="navbar navbar-expand header-bar">
+        <nav className="navbar navbar-expand">
             <Link to="/" className="navbar-brand">
                 <img src={process.env.PUBLIC_URL + '/logo.png'} alt="Logo" className="header-logo" />
             </Link>

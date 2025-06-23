@@ -1,12 +1,13 @@
+// Login.jsx
 import React, { useState } from 'react';
-import { useAuth } from '../context/AuthContext';
-import { useNavigate } from 'react-router-dom';
-import { Card } from 'primereact/card';
 import { InputText } from 'primereact/inputtext';
 import { Password } from 'primereact/password';
 import { Button } from 'primereact/button';
 import { Message } from 'primereact/message';
+import { Card } from 'primereact/card';
 import './Login.css';
+import {useAuth} from "../context/AuthContext";
+import {useNavigate} from "react-router-dom";
 
 const Login = () => {
     const [usernameOrEmail, setUsernameOrEmail] = useState('');
@@ -31,50 +32,56 @@ const Login = () => {
     };
 
     return (
-        <div className="flex align-items-center justify-content-center">
-            <Card className="login-card">
-                <div className="flex flex-column align-items-center mb-4">
-                    <img
-                        src="https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png"
-                        alt="profile-img"
-                        className="w-5rem h-5rem border-circle mb-4"
+        <Card className="login-card">
+            <div className="login-container">
+                <h2 className="login-title">Welcome Back</h2>
+
+                {error && (
+                    <Message
+                        severity="error"
+                        text={error}
+                        className="login-error-message"
                     />
-                    <h2 className="mb-3">Sign In</h2>
+                )}
+
+                <div className="login-form">
+                    <div className="p-float-label login-field">
+                        <InputText
+                            id="usernameOrEmail"
+                            value={usernameOrEmail}
+                            onChange={(e) => setUsernameOrEmail(e.target.value)}
+                            className="login-input w-full"
+                            autoFocus
+                            onKeyPress={(e) => e.key === 'Enter' && handleLogin(e)}
+                        />
+                        <label htmlFor="usernameOrEmail">Username or Email</label>
+                    </div>
+
+                    <div className="p-float-label login-field">
+                        <Password
+                            id="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            className="login-password w-full"
+                            inputClassName="login-password-input"
+                            feedback={false}
+                            toggleMask
+                            onKeyPress={(e) => e.key === 'Enter' && handleLogin(e)}
+                        />
+                        <label htmlFor="password">Password</label>
+                    </div>
+
+                    <Button
+                        label={loading ? 'Signing In...' : 'Sign In'}
+                        icon={loading ? 'pi pi-spinner pi-spin' : 'pi pi-sign-in'}
+                        className="login-button"
+                        onClick={handleLogin}
+                        disabled={loading}
+                        loading={loading}
+                    />
                 </div>
-                <form onSubmit={handleLogin}>
-                    {error && <Message severity="error" text={error} className="w-full mb-3" />}
-                    <div className="p-field mb-3 w-full">
-                        <span className="p-float-label w-full">
-                            <InputText
-                                id="usernameOrEmail"
-                                value={usernameOrEmail}
-                                onChange={(e) => setUsernameOrEmail(e.target.value)}
-                                className="w-full"
-                                autoFocus
-                                required
-                            />
-                            <label htmlFor="usernameOrEmail">Username or Email</label>
-                        </span>
-                    </div>
-                    <div className="p-field mb-3 w-full">
-                        <span className="p-float-label w-full">
-                            <Password
-                                id="password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                className="w-full"
-                                inputClassName="w-full"
-                                feedback={false}
-                                toggleMask
-                                required
-                            />
-                            <label htmlFor="password">Password</label>
-                        </span>
-                    </div>
-                    <Button label={loading ? 'Logging in...' : 'Login'} icon="pi pi-sign-in" className="w-full mb-2" type="submit" disabled={loading} />
-                </form>
-            </Card>
-        </div>
+            </div>
+        </Card>
     );
 };
 

@@ -1,9 +1,58 @@
+/* Login.css */
+
 .login-card {
-    width: 400px;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
     border: none;
-    box-shadow: none;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
 }
 
-.login-card .p-card-content {
+.login-container {
     padding: 2rem;
+}
+
+.login-title {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 1.5rem;
+}
+
+.login-error-message {
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.login-field {
+    width: 100%;
+}
+
+.login-input {
+    width: 100%;
+    display: block;
+}
+
+.login-password {
+    width: 100%;
+    display: block;
+}
+
+.login-password-input {
+    width: 100%;
+}
+
+.login-button {
+    width: 100%;
+    padding: 0.75rem;
 }

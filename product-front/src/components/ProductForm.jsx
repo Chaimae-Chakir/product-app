@@ -23,6 +23,10 @@ const ProductForm = ({ product, onSave, onCancel }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        if (price <= 0) {
+            alert('Price must be greater than 0');
+            return;
+        }
         const productData = { name, price };
 
         const saveMethod = id
@@ -46,11 +50,11 @@ const ProductForm = ({ product, onSave, onCancel }) => {
             </div>
             <div className="p-field mt-3">
                 <label htmlFor="price">Price</label>
-                <InputNumber id="price" value={price} onValueChange={(e) => setPrice(e.value)} mode="currency" currency="USD" locale="en-US" required />
+                <InputNumber id="price" value={price} onValueChange={(e) => setPrice(e.value)} mode="currency" currency="USD" locale="en-US" required min={0.01} />
             </div>
             <div className="p-d-flex p-jc-end mt-4">
                 <Button label="Cancel" icon="pi pi-times" className="p-button-text" onClick={onCancel} type="button" />
-                <Button label="Save" icon="pi pi-check" type="submit" />
+                <Button label={id ? "Update Product" : "Add Product"} icon="pi pi-check" type="submit" />
             </div>
         </form>
     );
