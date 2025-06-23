@@ -1,5 +1,4 @@
 .product-dialog .p-dialog-content {
-    /* Ensures content inside the dialog has some breathing room */
     padding-top: 1rem;
 }
 
@@ -8,6 +7,10 @@
 }
 
 .actions-column {
-    /* Ensures the action buttons have enough space and don't wrap */
     min-width: 8rem;
+}
+
+.error-message {
+    color: red;
+    font-size: 0.9em;
 }
