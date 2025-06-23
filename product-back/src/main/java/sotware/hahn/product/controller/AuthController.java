@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 import sotware.hahn.product.service.AuthService;
 import sotware.hahn.product.dto.JwtAuthResponseDto;
 import sotware.hahn.product.dto.LoginDto;
-import sotware.hahn.product.dto.RegisterDto;
+import sotware.hahn.product.dto.RegisterDtoRequest;
+import sotware.hahn.product.dto.RegisterUserResponse;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -26,8 +27,8 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody RegisterDto registerDto) {
-        String response = authService.register(registerDto);
+    public ResponseEntity<RegisterUserResponse> register(@RequestBody RegisterDtoRequest registerDtoRequest) {
+        RegisterUserResponse response = authService.register(registerDtoRequest);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 } 

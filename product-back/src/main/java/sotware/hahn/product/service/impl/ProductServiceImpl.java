@@ -1,4 +1,4 @@
-package sotware.hahn.product.service;
+package sotware.hahn.product.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -7,6 +7,7 @@ import sotware.hahn.product.entity.Product;
 import sotware.hahn.product.exception.ResourceNotFoundException;
 import sotware.hahn.product.mapper.ProductMapper;
 import sotware.hahn.product.repository.ProductRepository;
+import sotware.hahn.product.service.ProductService;
 
 import java.util.List;
 import java.util.stream.Collectors;

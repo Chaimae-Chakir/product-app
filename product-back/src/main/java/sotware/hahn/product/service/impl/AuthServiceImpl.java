@@ -1,4 +1,4 @@
-package sotware.hahn.product.service;
+package sotware.hahn.product.service.impl;
 
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -9,19 +9,21 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 import sotware.hahn.product.dto.LoginDto;
-import sotware.hahn.product.dto.RegisterDto;
+import sotware.hahn.product.dto.RegisterDtoRequest;
 import sotware.hahn.product.dto.JwtAuthResponseDto;
+import sotware.hahn.product.dto.RegisterUserResponse;
 import sotware.hahn.product.entity.Role;
 import sotware.hahn.product.entity.User;
 import sotware.hahn.product.exception.ResourceNotFoundException;
 import sotware.hahn.product.repository.RoleRepository;
 import sotware.hahn.product.repository.UserRepository;
+import sotware.hahn.product.service.AuthService;
+import sotware.hahn.product.security.JwtTokenProvider;
 
 
 import java.util.HashSet;
 import java.util.Set;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -38,18 +40,16 @@ public class AuthServiceImpl implements AuthService {
     public JwtAuthResponseDto login(LoginDto loginDto) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        loginDto.getUsernameOrEmail(),
-                        loginDto.getPassword()
+                        loginDto.username(),
+                        loginDto.password()
                 )
         );
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         String token = jwtTokenProvider.generateToken(authentication);
-        // Fetch the User entity to get the username
-        sotware.hahn.product.entity.User user = userRepository.findByUsernameOrEmail(
-                loginDto.getUsernameOrEmail(), loginDto.getUsernameOrEmail()
-        ).orElseThrow(() -> new RuntimeException("User not found"));
+        User user = userRepository.findByUsername(
+                loginDto.username()).orElseThrow(() -> new RuntimeException("User not found"));
         String username = user.getUsername();
         List<String> roles = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
@@ -59,20 +59,20 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public String register(RegisterDto registerDto) {
-        if (userRepository.existsByUsername(registerDto.username())) {
+    public RegisterUserResponse register(RegisterDtoRequest registerDtoRequest) {
+        if (userRepository.existsByUsername(registerDtoRequest.username())) {
             throw new ResourceNotFoundException("Username is already taken!");
         }
 
-        if (userRepository.existsByEmail(registerDto.email())) {
+        if (userRepository.existsByEmail(registerDtoRequest.email())) {
             throw new ResourceNotFoundException("Email is already taken!");
         }
 
         User user = new User();
-        user.setName(registerDto.name());
-        user.setUsername(registerDto.username());
-        user.setEmail(registerDto.email());
-        user.setPassword(passwordEncoder.encode(registerDto.password()));
+        user.setName(registerDtoRequest.name());
+        user.setUsername(registerDtoRequest.username());
+        user.setEmail(registerDtoRequest.email());
+        user.setPassword(passwordEncoder.encode(registerDtoRequest.password()));
 
         Set<Role> roles = new HashSet<>();
         Role userRole = roleRepository.findByName("ROLE_USER").orElseThrow(() -> new ResourceNotFoundException("Role not found!"));
@@ -81,6 +81,11 @@ public class AuthServiceImpl implements AuthService {
 
         userRepository.save(user);
 
-        return "User registered successfully!.";
+        return new RegisterUserResponse(
+            user.getId(),
+            user.getName(),
+            user.getUsername(),
+            user.getEmail()
+        );
     }
 } 

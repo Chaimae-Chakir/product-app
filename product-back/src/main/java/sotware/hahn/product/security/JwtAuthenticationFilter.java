@@ -1,4 +1,4 @@
-package sotware.hahn.product.service;
+package sotware.hahn.product.security;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
