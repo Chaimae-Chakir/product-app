@@ -23,7 +23,7 @@ public class ProductServiceImpl implements ProductService {
     public List<ProductResponseDto> getAllProducts() {
         return productRepository.findAll().stream()
                 .map(productMapper::toResponseDto)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
