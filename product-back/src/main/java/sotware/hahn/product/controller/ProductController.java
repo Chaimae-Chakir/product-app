@@ -6,7 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import sotware.hahn.product.dto.ProductDto;
+import sotware.hahn.product.dto.ProductRequestDto;
+import sotware.hahn.product.dto.ProductResponseDto;
 import sotware.hahn.product.service.ProductService;
 
 import java.util.List;
@@ -19,27 +20,27 @@ public class ProductController {
     private final ProductService productService;
 
     @GetMapping
-    public List<ProductDto> getAllProducts() {
+    public List<ProductResponseDto> getAllProducts() {
         return productService.getAllProducts();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProductDto> getProductById(@PathVariable Long id) {
-        ProductDto productDto = productService.getProductById(id);
-        return ResponseEntity.ok(productDto);
+    public ResponseEntity<ProductResponseDto> getProductById(@PathVariable Long id) {
+        ProductResponseDto productResponseDto = productService.getProductById(id);
+        return ResponseEntity.ok(productResponseDto);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
-    public ResponseEntity<ProductDto> createProduct(@Valid @RequestBody ProductDto productDto) {
-        ProductDto createdProduct = productService.createProduct(productDto);
+    public ResponseEntity<ProductResponseDto> createProduct(@Valid @RequestBody ProductRequestDto productRequestDto) {
+        ProductResponseDto createdProduct = productService.createProduct(productRequestDto);
         return new ResponseEntity<>(createdProduct, HttpStatus.CREATED);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
-    public ResponseEntity<ProductDto> updateProduct(@PathVariable Long id, @Valid @RequestBody ProductDto productDto) {
-        ProductDto updatedProduct = productService.updateProduct(id, productDto);
+    public ResponseEntity<ProductResponseDto> updateProduct(@PathVariable Long id, @Valid @RequestBody ProductRequestDto productRequestDto) {
+        ProductResponseDto updatedProduct = productService.updateProduct(id, productRequestDto);
         return ResponseEntity.ok(updatedProduct);
     }
 

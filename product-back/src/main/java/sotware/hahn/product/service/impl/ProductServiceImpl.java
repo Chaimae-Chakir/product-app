@@ -2,7 +2,8 @@ package sotware.hahn.product.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import sotware.hahn.product.dto.ProductDto;
+import sotware.hahn.product.dto.ProductRequestDto;
+import sotware.hahn.product.dto.ProductResponseDto;
 import sotware.hahn.product.entity.Product;
 import sotware.hahn.product.exception.ResourceNotFoundException;
 import sotware.hahn.product.mapper.ProductMapper;
@@ -19,37 +20,35 @@ public class ProductServiceImpl implements ProductService {
     private final ProductMapper productMapper;
 
     @Override
-    public List<ProductDto> getAllProducts() {
+    public List<ProductResponseDto> getAllProducts() {
         return productRepository.findAll().stream()
-                .map(productMapper::toDto)
+                .map(productMapper::toResponseDto)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public ProductDto getProductById(Long id) {
+    public ProductResponseDto getProductById(Long id) {
         return productRepository.findById(id)
-                .map(productMapper::toDto)
+                .map(productMapper::toResponseDto)
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found with id: " + id));
     }
 
     @Override
-    public ProductDto createProduct(ProductDto productDto) {
-        Product product = productMapper.toEntity(productDto);
+    public ProductResponseDto createProduct(ProductRequestDto productRequestDto) {
+        Product product = productMapper.toEntity(productRequestDto);
         Product savedProduct = productRepository.save(product);
-        return productMapper.toDto(savedProduct);
+        return productMapper.toResponseDto(savedProduct);
     }
 
     @Override
-    public ProductDto updateProduct(Long id, ProductDto productDto) {
+    public ProductResponseDto updateProduct(Long id, ProductRequestDto productRequestDto) {
         Product existingProduct = productRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found with id: " + id));
 
-        existingProduct.setName(productDto.name());
-        existingProduct.setPrice(productDto.price());
-        existingProduct.setDescription(productDto.description());
+        productMapper.updateProductFromDto(productRequestDto, existingProduct);
 
         Product updatedProduct = productRepository.save(existingProduct);
-        return productMapper.toDto(updatedProduct);
+        return productMapper.toResponseDto(updatedProduct);
     }
 
     @Override
