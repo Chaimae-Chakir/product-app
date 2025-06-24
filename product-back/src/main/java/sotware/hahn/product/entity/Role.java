@@ -9,7 +9,7 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 @Entity
-@Table(name = "roles")
+@Table(name = "app_role")
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

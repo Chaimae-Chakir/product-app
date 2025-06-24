@@ -8,8 +8,8 @@ databaseChangeLog:
               - onFail: MARK_RAN
               - sqlCheck:
                   expectedResult: "0"
-                  sql: "SELECT count(*) FROM roles WHERE name = 'ROLE_USER'"
-            tableName: roles
+                  sql: "SELECT count(*) FROM app_role WHERE name = 'ROLE_USER'"
+            tableName: app_role
             columns:
               - column:
                   name: name
@@ -19,8 +19,8 @@ databaseChangeLog:
               - onFail: MARK_RAN
               - sqlCheck:
                   expectedResult: "0"
-                  sql: "SELECT count(*) FROM roles WHERE name = 'ROLE_ADMIN'"
-            tableName: roles
+                  sql: "SELECT count(*) FROM app_role WHERE name = 'ROLE_ADMIN'"
+            tableName: app_role
             columns:
               - column:
                   name: name
@@ -30,18 +30,18 @@ databaseChangeLog:
               - onFail: MARK_RAN
               - sqlCheck:
                   expectedResult: "0"
-                  sql: "SELECT count(*) FROM users WHERE username = 'admin'"
-            tableName: users
+                  sql: "SELECT count(*) FROM app_user WHERE username = 'admin'"
+            tableName: app_user
             columns:
               - column:
                   name: name
-                  value: "Admin"
+                  value: Admin
               - column:
                   name: username
-                  value: "admin"
+                  value: admin
               - column:
                   name: email
-                  value: "admin@gmail.com"
+                  value: admin@gmail.com
               - column:
                   name: password
                   value: "$2y$10$QVJmSXpFWze54x9te6VIP.EF88mKyEPZ4TCsYeAvpWRV8k7StOIvC"
@@ -50,69 +50,49 @@ databaseChangeLog:
               - onFail: MARK_RAN
               - sqlCheck:
                   expectedResult: "0"
-                  sql: "SELECT count(*) FROM users WHERE username = 'user'"
-            tableName: users
+                  sql: "SELECT count(*) FROM app_user WHERE username = 'user'"
+            tableName: app_user
             columns:
               - column:
                   name: name
-                  value: "User"
+                  value: User
               - column:
                   name: username
-                  value: "user"
+                  value: user
               - column:
                   name: email
-                  value: "user@gmail.com"
+                  value: user@gmail.com
               - column:
                   name: password
                   value: "$2y$10$QVJmSXpFWze54x9te6VIP.EF88mKyEPZ4TCsYeAvpWRV8k7StOIvC"
         - insert:
-            preConditions:
-              - onFail: MARK_RAN
-              - sqlCheck:
-                  expectedResult: "0"
-                  sql: "SELECT count(*) FROM users_roles ur JOIN users u ON ur.user_id = u.id JOIN roles r ON ur.role_id = r.id WHERE u.username = 'admin' AND r.name = 'ROLE_USER'"
-            tableName: users_roles
+            tableName: user_role
             columns:
               - column:
                   name: user_id
-                  valueComputed: "(SELECT id FROM users WHERE username = 'admin')"
+                  valueComputed: (SELECT id FROM app_user WHERE username = 'admin')
               - column:
                   name: role_id
-                  valueComputed: "(SELECT id FROM roles WHERE name = 'ROLE_USER')"
+                  valueComputed: (SELECT id FROM app_role WHERE name = 'ROLE_USER')
         - insert:
-            preConditions:
-              - onFail: MARK_RAN
-              - sqlCheck:
-                  expectedResult: "0"
-                  sql: "SELECT count(*) FROM users_roles ur JOIN users u ON ur.user_id = u.id JOIN roles r ON ur.role_id = r.id WHERE u.username = 'admin' AND r.name = 'ROLE_ADMIN'"
-            tableName: users_roles
+            tableName: user_role
             columns:
               - column:
                   name: user_id
-                  valueComputed: "(SELECT id FROM users WHERE username = 'admin')"
+                  valueComputed: (SELECT id FROM app_user WHERE username = 'admin')
               - column:
                   name: role_id
-                  valueComputed: "(SELECT id FROM roles WHERE name = 'ROLE_ADMIN')"
+                  valueComputed: (SELECT id FROM app_role WHERE name = 'ROLE_ADMIN')
         - insert:
-            preConditions:
-              - onFail: MARK_RAN
-              - sqlCheck:
-                  expectedResult: "0"
-                  sql: "SELECT count(*) FROM users_roles ur JOIN users u ON ur.user_id = u.id JOIN roles r ON ur.role_id = r.id WHERE u.username = 'user' AND r.name = 'ROLE_USER'"
-            tableName: users_roles
+            tableName: user_role
             columns:
               - column:
                   name: user_id
-                  valueComputed: "(SELECT id FROM users WHERE username = 'user')"
+                  valueComputed: (SELECT id FROM app_user WHERE username = 'user')
               - column:
                   name: role_id
-                  valueComputed: "(SELECT id FROM roles WHERE name = 'ROLE_USER')"
+                  valueComputed: (SELECT id FROM app_role WHERE name = 'ROLE_USER')
         - insert:
-            preConditions:
-              - onFail: MARK_RAN
-              - sqlCheck:
-                  expectedResult: "0"
-                  sql: "SELECT count(*) FROM product WHERE name = 'Laptop'"
             tableName: product
             columns:
               - column:
@@ -124,12 +104,13 @@ databaseChangeLog:
               - column:
                   name: description
                   value: "A powerful laptop for all your needs"
+              - column:
+                  name: created_at
+                  valueDate: 2025-06-24T00:00:00Z
+              - column:
+                  name: updated_at
+                  valueDate: 2025-06-24T00:00:00Z
         - insert:
-            preConditions:
-              - onFail: MARK_RAN
-              - sqlCheck:
-                  expectedResult: "0"
-                  sql: "SELECT count(*) FROM product WHERE name = 'Smartphone'"
             tableName: product
             columns:
               - column:
@@ -141,12 +122,13 @@ databaseChangeLog:
               - column:
                   name: description
                   value: "A modern smartphone with a great camera"
+              - column:
+                  name: created_at
+                  valueDate: 2025-06-24T00:00:00Z
+              - column:
+                  name: updated_at
+                  valueDate: 2025-06-24T00:00:00Z
         - insert:
-            preConditions:
-              - onFail: MARK_RAN
-              - sqlCheck:
-                  expectedResult: "0"
-                  sql: "SELECT count(*) FROM product WHERE name = 'Headphones'"
             tableName: product
             columns:
               - column:
@@ -158,12 +140,13 @@ databaseChangeLog:
               - column:
                   name: description
                   value: "Wireless noise-cancelling headphones"
+              - column:
+                  name: created_at
+                  valueDate: 2025-06-24T00:00:00Z
+              - column:
+                  name: updated_at
+                  valueDate: 2025-06-24T00:00:00Z
         - insert:
-            preConditions:
-              - onFail: MARK_RAN
-              - sqlCheck:
-                  expectedResult: "0"
-                  sql: "SELECT count(*) FROM product WHERE name = 'Tablet'"
             tableName: product
             columns:
               - column:
@@ -171,16 +154,17 @@ databaseChangeLog:
                   value: "Tablet"
               - column:
                   name: price
-                  value: "450.00"
+                  value:  "450.00"
               - column:
                   name: description
                   value: "10-inch tablet with HD display"
+              - column:
+                  name: created_at
+                  valueDate: 2025-06-24T00:00:00Z
+              - column:
+                  name: updated_at
+                  valueDate: 2025-06-24T00:00:00Z
         - insert:
-            preConditions:
-              - onFail: MARK_RAN
-              - sqlCheck:
-                  expectedResult: "0"
-                  sql: "SELECT count(*) FROM product WHERE name = 'Smartwatch'"
             tableName: product
             columns:
               - column:
@@ -192,12 +176,13 @@ databaseChangeLog:
               - column:
                   name: description
                   value: "Fitness smartwatch with heart rate monitor"
+              - column:
+                  name: created_at
+                  valueDate: 2025-06-24T00:00:00Z
+              - column:
+                  name: updated_at
+                  valueDate: 2025-06-24T00:00:00Z
         - insert:
-            preConditions:
-              - onFail: MARK_RAN
-              - sqlCheck:
-                  expectedResult: "0"
-                  sql: "SELECT count(*) FROM product WHERE name = 'Bluetooth Speaker'"
             tableName: product
             columns:
               - column:
@@ -205,7 +190,13 @@ databaseChangeLog:
                   value: "Bluetooth Speaker"
               - column:
                   name: price
-                  value: "99.99"
+                  value: "199.99"
               - column:
                   name: description
-                  value: "Portable Bluetooth speaker with deep bass" 
+                  value: "Portable Bluetooth speaker with deep bass"
+              - column:
+                  name: created_at
+                  valueDate: 2025-06-24T00:00:00Z
+              - column:
+                  name: updated_at
+                  valueDate: 2025-06-24T00:00:00Z
