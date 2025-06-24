@@ -135,3 +135,19 @@ docker-compose up --build
   ```bash
   docker-compose up --build
   ```
+
+---
+
+## Testing
+
+### Backend
+To run the backend unit and integration tests, use the following command from the `product-back` directory:
+```bash
+mvn test
+```
+
+### Frontend
+To run the frontend component tests, use the following command from the `product-front` directory:
+```bash
+npm test
+```
