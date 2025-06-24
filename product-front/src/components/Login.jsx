@@ -73,11 +73,9 @@ const Login = () => {
                         </div>
 
                         <Button
-                            label={loading ? 'Signing In...' : 'Sign In'}
-                            icon={loading ? 'pi pi-spinner pi-spin' : 'pi pi-sign-in'}
+                            label={loading ? '' : 'Sign In'}
                             className="login-button"
                             type="submit"
-                            disabled={loading}
                             loading={loading}
                         />
                     </form>
