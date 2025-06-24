@@ -94,12 +94,26 @@ docker-compose up --build
    - **Connection tab:**
      - Host name/address: `db`
      - Port: `5432`
+     - Database: `product`
      - Username: `postgres`
      - Password: `postgres`
-     - Database: `product`
      - Save Password: checked
    - Click "Save"
 4. You can now manage your PostgreSQL database from pgAdmin.
+5. To test the connection, open the Query Tool and run a sample query:
+   ```sql
+   -- View all users
+   SELECT * FROM app_user;
+
+   -- View all roles
+   SELECT * FROM app_role;
+
+   -- View user-role relationships
+   SELECT * FROM user_role;
+
+   -- View all products
+   SELECT * FROM product;
+   ```
 
 ---
 
@@ -112,6 +126,10 @@ docker-compose up --build
 - **Stop Docker containers:**
   ```bash
   docker-compose down
+  ```
+- **Stop containers and remove data volumes:**
+  ```bash
+  docker-compose down -v
   ```
 - **Rebuild containers:**
   ```bash
