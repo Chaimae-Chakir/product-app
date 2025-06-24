@@ -23,13 +23,9 @@ const Login = () => {
         setLoading(true);
         try {
             await login(username, password);
-            navigate('/');
+            navigate('/products');
         } catch (err) {
-            const message =
-                err?.response?.data?.message ||
-                err?.message ||
-                'Login failed. Please check your credentials.';
-            setError(message);
+            setError('Login failed. Please check your credentials and try again');
         } finally {
             setLoading(false);
         }
